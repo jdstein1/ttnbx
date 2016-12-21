@@ -3,113 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <div class="keys">
-    <div data-key="65" class="key">
-      <kbd>A</kbd>
-      <span class="sound">clap</span>
-    </div>
-    <div data-key="83" class="key">
-      <kbd>S</kbd>
-      <span class="sound">hihat</span>
-    </div>
-    <div data-key="68" class="key">
-      <kbd>D</kbd>
-      <span class="sound">kick</span>
-    </div>
-    <div data-key="70" class="key">
-      <kbd>F</kbd>
-      <span class="sound">openhat</span>
-    </div>
-    <div data-key="71" class="key">
-      <kbd>G</kbd>
-      <span class="sound">boom</span>
-    </div>
-    <div data-key="72" class="key">
-      <kbd>H</kbd>
-      <span class="sound">ride</span>
-    </div>
-    <div data-key="74" class="key">
-      <kbd>J</kbd>
-      <span class="sound">snare</span>
-    </div>
-    <div data-key="75" class="key">
-      <kbd>K</kbd>
-      <span class="sound">tom</span>
-    </div>
-    <div data-key="76" class="key">
-      <kbd>L</kbd>
-      <span class="sound">tink</span>
-    </div>
+<div class="keys">
+  <div data-key="65" class="key">
+    <kbd>A</kbd>
+    <span class="sound">bells</span>
+    <audio data-key="65" src="xmas/sleigh_bells.mp3"></audio>
   </div>
+  <div data-key="83" class="key">
+    <kbd>S</kbd>
+    <span class="sound">hihat</span>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+  </div>
+  <div data-key="68" class="key">
+    <kbd>D</kbd>
+    <span class="sound">kick</span>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+  </div>
+  <div data-key="70" class="key">
+    <kbd>F</kbd>
+    <span class="sound">openhat</span>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+  </div>
+  <div data-key="71" class="key">
+    <kbd>G</kbd>
+    <span class="sound">boom</span>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+  </div>
+  <div data-key="72" class="key">
+    <kbd>H</kbd>
+    <span class="sound">ride</span>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+  </div>
+  <div data-key="74" class="key">
+    <kbd>J</kbd>
+    <span class="sound">snare</span>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+  </div>
+  <div data-key="75" class="key">
+    <kbd>K</kbd>
+    <span class="sound">tom</span>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+  </div>
+  <div data-key="76" class="key">
+    <kbd>L</kbd>
+    <span class="sound">tink</span>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
+  </div>
+</div>
 
-  <audio data-key="65" src="xmas/sleigh_bells.mp3"></audio>
-  <!-- <audio data-key="65" src="sounds/clap.wav"></audio> -->
-  <audio data-key="83" src="sounds/hihat.wav"></audio>
-  <audio data-key="68" src="sounds/kick.wav"></audio>
-  <audio data-key="70" src="sounds/openhat.wav"></audio>
-  <audio data-key="71" src="sounds/boom.wav"></audio>
-  <audio data-key="72" src="sounds/ride.wav"></audio>
-  <audio data-key="74" src="sounds/snare.wav"></audio>
-  <audio data-key="75" src="sounds/tom.wav"></audio>
-  <audio data-key="76" src="sounds/tink.wav"></audio>
-
-<script>
-
-const keys = document.querySelectorAll('.key'); // cache key elements
-const audios = document.getElementsByTagName("audio"); // cache audio elements
-const codes = []; // array of codes
-
-/* push each code into codes array */
-for (let i = 0; i < audios.length; i++) {
-  codes.push(parseInt(audios[i].dataset.key));
-}
-
-/* get index of key with specific code */
-function isMyKey(arr,key,val) {
-  for (let i = 0; i < arr.length; i++) {
-    const myCode = parseInt(arr[i].dataset[key]);
-    if (myCode === val) {
-      const index = i;
-      return index;
-    }
-  }
-}
-
-/* play audio associated w key and start CSS transition */
-function playAudio(e) {
-  // console.group('START playAudio');
-  const myKey = e.keyCode;
-  const myIndex = isMyKey(audios,"key",myKey);
-  console.log('audio played: ', keys[myIndex].children[1].innerHTML);
-  audios[myIndex].currentTime = 0;
-  audios[myIndex].play().then(function(){
-    keys[myIndex].classList.add("playing");
-  });
-  // console.groupEnd();
-}
-
-/* undo the CSS transition */
-function undoTransition(e) {
-  if (e.propertyName !== 'transform') return; // skip it if it's not a transform
-  this.classList.remove("playing");
-}
-
-/* listen for key down event */
-document.addEventListener("keydown", function(){
-  console.log('key pressed: ', event.key);
-  // play audio only if it is one of our key codes
-  if (codes.indexOf(event.keyCode) < 0) return;
-  playAudio(event);
-});
-
-/* listen for transition event */
-keys.forEach(key => key.addEventListener('transitionend', undoTransition));
-
-</script>
+<script src="scripts.js"></script>
 
 </body>
 </html>
